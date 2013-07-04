@@ -90,12 +90,12 @@
 	{
 		entries.sort(function(a,b){return b.publishedDate-a.publishedDate});
 		for (var i = 0; i < entries.length; i++){
-		 jQuery('#feed').append('<h3 class="post-title entry-title">'+ entries[i].title + '::' + entries[i].publishedDate +'</h3>' +  entries[i].content + '<br/><a href="' +  entries[i].link + '">'+'View '+entries[i].author+'\'s Original Post.'+'</a><br/><b>Categories:</b>' + entries[i].categories + '<br/>');	
+		 jQuery('#feed').append('<h3>'+ entries[i].title + '::' + entries[i].publishedDate +'</h3>' +  entries[i].content + '<br/><a href="' +  entries[i].link + '">'+'View '+entries[i].author+'\'s Original Post.'+'</a><br/><b>Categories:</b>' + entries[i].categories + '<br/>');	
 		}
 	}
 	
     google.setOnLoadCallback(feedHandle);
-
+	jQuery('h3').style.borderColor = gadgets.skins.getProperty('CONTENT_HEADLINE_COLOR');
 	</script>
 <div class="banner">
 <h1>bloggregator</h1>
