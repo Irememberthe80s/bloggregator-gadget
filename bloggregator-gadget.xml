@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="Preferences for bloggregator" height="400"/> 
+  <UserPref name="mysites" display_name="Feeds" datatype="string" default_value="http://cognitionengine.wordpress.com/feed/, http://ihopeyousteponalego.blogspot.com//feeds/posts/default"/>
+  <UserPref name="myfilters" display_name="Filters" datatype="string" default_value="p2pu"/>
+  <UserPref name="allFilters" display_name="Require all filters?" datatype="bool" default_value="true"/>
+  <UserPref name="postNumber" display_name="Number of most recent posts from each blog to check" default_value="4" datatype="enum" >
+    <EnumValue value="1" />
+     <EnumValue value="2" />
+     <EnumValue value="3" />
+     <EnumValue value="4" />
+     <EnumValue value="5" />
+     <EnumValue value="6" />
+     <EnumValue value="7" />
+     <EnumValue value="8" />    
+     <EnumValue value="9" />
+     <EnumValue value="10" />           
+   </UserPref>
+ <Content type="html">
+  <![CDATA[ 
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">	
+	var prefs = new gadgets.Prefs();
+	google.load("feeds", "1");
+	//loads after page load, ajax calls for feeds. checks number of loads vs total feeds. using this method since can't change async setting for google.load
+	function feedHandle()
+	{
+	var postNum = prefs.getString("postNumber");
+	var a = prefs.getString("mysites");
+	a = unescape(a);
+	jQuery('#sources').append(a);
+	var feeds = a.split(',');
+	var b = prefs.getString("myfilters");
+	b = unescape(b);
+	jQuery('#filters').append(b);
+	var filters = b.split(',');	
+		entries = [];
+		allLoaded = 1;
+		for (var i = 0; i < feeds.length; i++){
+			var feed = new google.feeds.Feed(feeds[i]);
+			  feed.setNumEntries(postNum)
+			  feed.load(function(result) {
+					if (!result.error) {
+					 for (var i = 0; i < result.feed.entries.length; i++) {
+					   var entry = result.feed.entries[i];
+					   
+					   //checks to see if all filters or any are required
+					   if (prefs.getBool("allFilters") == true)
+					   {
+						   if (containsAll(filters, entry.categories) == true)
+							 {
+							   entry.publishedDate = new Date(entry.publishedDate);
+							   entries.push(entry);
+							 }
+					   }
+					   else 
+					   {
+						   if (containsAny(filters, entry.categories) == true)
+							 {
+							   entry.publishedDate = new Date(entry.publishedDate);
+							   entries.push(entry);
+							 }
+					   }
+					  }
+					  if (allLoaded == feeds.length){displayEntries();}
+					else {allLoaded = allLoaded +1;}
+					 }
+				});	
+		}
+	}	
+
+	function containsAll(filters, categories){ 
+	  for(var i = 0; i < filters.length; i++){
+		 if(jQuery.inArray(filters[i], categories) == -1) return false;
+	  }
+	  return true;
+	}
+
+	function containsAny(filters, categories){ 
+	  for(var i = 0; i < filters.length; i++){
+		 if(jQuery.inArray(filters[i], categories) > -1) return true;
+	  }
+	  return false;
+	}	
+	
+	//display and sort filtered entries
+	function displayEntries()
+	{
+		entries.sort(function(a,b){return b.publishedDate-a.publishedDate});
+		for (var i = 0; i < entries.length; i++){
+		 jQuery('#feed').append('<h3>'+ entries[i].title + '::' + entries[i].publishedDate +'</h3>' +  entries[i].content + '<br/><a href="' +  entries[i].link + '">'+'View '+entries[i].author+'\'s Original Post.'+'</a><br/><b>Categories:</b>' + entries[i].categories + '<br/>');	
+		}
+	}
+	
+    google.setOnLoadCallback(feedHandle);
+
+	</script>
+<div class="banner">
+<h1>bloggregator</h1>
+</div>
+<div class="content">
+<div id="sources" class="sources">
+<h3>Sources</h3>
+</div>
+<div id="filters">
+<h3>Filters</h3>
+</div>
+<div id="feed">
+</div>
+</div>
+  ]]> 
+  </Content>
+</Module>
