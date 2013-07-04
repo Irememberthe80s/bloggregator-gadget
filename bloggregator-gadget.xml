@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?> 
 <Module>
   <ModulePrefs title="Preferences for bloggregator" height="400"/> 
-  <Optional feature="skins" />
   <UserPref name="mysites" display_name="Feeds" datatype="string" default_value="http://cognitionengine.wordpress.com/feed/, http://ihopeyousteponalego.blogspot.com//feeds/posts/default"/>
   <UserPref name="myfilters" display_name="Filters" datatype="string" default_value="p2pu"/>
   <UserPref name="allFilters" display_name="Require all filters?" datatype="bool" default_value="true"/>
@@ -95,7 +94,6 @@
 	}
 	
     google.setOnLoadCallback(feedHandle);
-	jQuery('h3').style.color = gadgets.skins.getProperty('CONTENT_HEADLINE_COLOR');
 	</script>
 <div class="banner">
 <h1>bloggregator</h1>
