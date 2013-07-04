@@ -95,7 +95,7 @@
 	}
 	
     google.setOnLoadCallback(feedHandle);
-	jQuery('h3').style.borderColor = gadgets.skins.getProperty('CONTENT_HEADLINE_COLOR');
+	jQuery('h3').style.color = gadgets.skins.getProperty('CONTENT_HEADLINE_COLOR');
 	</script>
 <div class="banner">
 <h1>bloggregator</h1>
