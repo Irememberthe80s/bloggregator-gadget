@@ -89,7 +89,7 @@
 	{
 		entries.sort(function(a,b){return b.publishedDate-a.publishedDate});
 		for (var i = 0; i < entries.length; i++){
-		 jQuery('#feed').append('<h3>'+ entries[i].title + '::' + entries[i].publishedDate +'</h3>' +  entries[i].content + '<br/><a href="' +  entries[i].link + '">'+'View '+entries[i].author+'\'s Original Post.'+'</a><br/><b>Categories:</b>' + entries[i].categories + '<br/>');	
+		 jQuery('#feed').append('<div class="feedEntry"><h2>'+ entries[i].title + '</h2><b>On:</b> ' + entries[i].publishedDate +' <b>By:</b> ' + entries[i].author + '<br/>' +  entries[i].content + '<br/><a href="' +  entries[i].link + '" target="_blank">'+'View '+entries[i].author+'\'s Original Post.'+'</a><br/><br/><b>Categories:</b>' + entries[i].categories + '<br/></div>');	
 		}
 	}
 	
